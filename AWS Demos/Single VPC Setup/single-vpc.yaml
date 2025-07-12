@@ -1,0 +1,141 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >
+  AoI Demo – Single VPC Setup
+  * One VPC (10.200.0.0/16) named “AoI Demo – Single VPC”
+  * Spans the first two AZs in the launch region
+  * Four /24 subnets:
+      AZ-1  Public  10.200.10.0/24  (auto-assign public IPs)
+      AZ-1  Private 10.200.20.0/24
+      AZ-2  Public  10.200.30.0/24  (auto-assign public IPs)
+      AZ-2  Private 10.200.40.0/24
+  * One Internet Gateway +
+    one route table for the two public subnets (0.0.0.0/0 → IGW)
+
+Resources:
+# ────────── VPC & IGW ────────────────────────────────────────────────────────
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.200.0.0/16
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      Tags:
+        - Key: Name
+          Value: AoI Demo - Single VPC
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: AoI Demo IGW
+
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId:            !Ref VPC
+      InternetGatewayId:!Ref InternetGateway
+
+# ────────── Subnets ──────────────────────────────────────────────────────────
+  # AZ list for the current region
+  Az0: !Select [0, !GetAZs '']
+  Az1: !Select [1, !GetAZs '']
+
+  PublicSubnetA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:              !Ref VPC
+      AvailabilityZone:   !Ref Az0
+      CidrBlock:          10.200.10.0/24
+      MapPublicIpOnLaunch:true
+      Tags: [ { Key: Name, Value: AoI Subnet A (Public) } ]
+
+  PrivateSubnetB:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:            !Ref VPC
+      AvailabilityZone: !Ref Az0
+      CidrBlock:        10.200.20.0/24
+      Tags: [ { Key: Name, Value: AoI Subnet B (Private) } ]
+
+  PublicSubnetC:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:              !Ref VPC
+      AvailabilityZone:   !Ref Az1
+      CidrBlock:          10.200.30.0/24
+      MapPublicIpOnLaunch:true
+      Tags: [ { Key: Name, Value: AoI Subnet C (Public) } ]
+
+  PrivateSubnetD:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId:            !Ref VPC
+      AvailabilityZone: !Ref Az1
+      CidrBlock:        10.200.40.0/24
+      Tags: [ { Key: Name, Value: AoI Subnet D (Private) } ]
+
+# ────────── Public route table ───────────────────────────────────────────────
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:  [ { Key: Name, Value: AoI Public RT } ]
+
+  DefaultRouteToIGW:
+    Type: AWS::EC2::Route
+    DependsOn: AttachGateway
+    Properties:
+      RouteTableId:        !Ref PublicRouteTable
+      DestinationCidrBlock:0.0.0.0/0
+      GatewayId:           !Ref InternetGateway
+
+  PublicSubnetAAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:     !Ref PublicSubnetA
+      RouteTableId: !Ref PublicRouteTable
+
+  PublicSubnetCAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:     !Ref PublicSubnetC
+      RouteTableId: !Ref PublicRouteTable
+
+# ────────── Outputs ─────────────────────────────────────────────────────────
+Outputs:
+  VPCId:
+    Description: VPC ID
+    Value: !Ref VPC
+    Export:
+      Name: AoI-VPCId
+
+  InternetGatewayId:
+    Description: IGW ID
+    Value: !Ref InternetGateway
+    Export:
+      Name: AoI-IGWId
+
+  PublicSubnetAId:
+    Description: Subnet A (Public) ID
+    Value: !Ref PublicSubnetA
+    Export:
+      Name: AoI-PublicSubnetAId
+
+  PrivateSubnetBId:
+    Description: Subnet B (Private) ID
+    Value: !Ref PrivateSubnetB
+    Export:
+      Name: AoI-PrivateSubnetBId
+
+  PublicSubnetCId:
+    Description: Subnet C (Public) ID
+    Value: !Ref PublicSubnetC
+    Export:
+      Name: AoI-PublicSubnetCId
+
+  PrivateSubnetDId:
+    Description: Subnet D (Private) ID
+    Value: !Ref PrivateSubnetD
+    Export:
+      Name: AoI-PrivateSubnetDId
