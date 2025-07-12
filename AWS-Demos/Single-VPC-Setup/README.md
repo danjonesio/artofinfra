@@ -4,9 +4,9 @@ You'll find in this folder an AWS CloudFormation template for a single VPC setup
 
 This provides a simple setup to follow along to with our blog posts.
 
-[Single VPC CloudFormation Templates](single-vpc.yaml)
+[Single VPC CloudFormation Template](single-vpc.yaml)
 
-What this CloudFormation Template Creates:
+## What this CloudFormation Template Creates:
 - A single VPC with the CIDR block 10.200.0.0/16
 - 1 public and 1 private subnet in 2 AZ's (First two available)
 - Internet Gateway and attaches to VPC
