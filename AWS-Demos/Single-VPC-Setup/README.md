@@ -2,7 +2,7 @@
 
 You'll find in this folder an AWS CloudFormation template for a single VPC setup that we will standardise on across all demo's, unless variations are called for. 
 
-This provides a simple setup to follow along to with our blog posts.
+This provides a simple setup to follow along to with our [blog posts](https://artofinfra.com).
 
 [Single VPC CloudFormation Template](single-vpc.yaml)
 
