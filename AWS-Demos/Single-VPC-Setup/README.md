@@ -4,7 +4,7 @@ You'll find in this folder an AWS CloudFormation template for a single VPC setup
 
 This provides a simple setup to follow along to with our blog posts.
 
-[Single VPC CloudFormation Templates](AWS-Demos/Single-VPC-Setup/single-vpc.yaml)
+[Single VPC CloudFormation Templates](single-vpc.yaml)
 
 What this CloudFormation Template Creates:
 - A single VPC with the CIDR block 10.200.0.0/16
@@ -19,4 +19,4 @@ What this CloudFormation Template Creates:
 - Subnet C - Public - 10.200.30.0/24
 - Subnet D - Private - 10.200.40.0/24
 
-![Single VPC Diagram for Art of Infra](AWS-Demos/Single-VPC-Setup/single-vpc-diagram.webp)
+![Single VPC Diagram for Art of Infra](single-vpc-diagram.webp)
