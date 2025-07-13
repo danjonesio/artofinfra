@@ -2,7 +2,7 @@ AWSTemplateFormatVersion: 2010-09-09
 Description: >
   AoI Demo – Single VPC Setup
 #  * One VPC (10.200.0.0/16) named “AoI Demo – Single VPC”
-#  * Spans the first two AZs in the launch region.
+#  * Spans the first two AZs in the launch region
 #  * Four /24 subnets:
 #      AZ-1  Public  10.200.10.0/24  (auto-assign public IPs)
 #      AZ-1  Private 10.200.20.0/24
