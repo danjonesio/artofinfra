@@ -37,15 +37,12 @@ Resources:
       InternetGatewayId: !Ref InternetGateway
 
 # ────────── Subnets ──────────────────────────────────────────────────────────
-  # AZ list for the current region
-  Az0: !Select [0, !GetAZs '']
-  Az1: !Select [1, !GetAZs '']
 
   PublicSubnetA:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId:              !Ref VPC
-      AvailabilityZone:   !Ref Az0
+      AvailabilityZone:   !!Select [0, !GetAZs '']
       CidrBlock:          10.200.10.0/24
       MapPublicIpOnLaunch: true
       Tags: [ { Key: Name, Value: AoI Subnet A (Public) } ]
@@ -54,7 +51,7 @@ Resources:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId:            !Ref VPC
-      AvailabilityZone: !Ref Az0
+      AvailabilityZone: !Select [0, !GetAZs '']
       CidrBlock:        10.200.20.0/24
       Tags: [ { Key: Name, Value: AoI Subnet B (Private) } ]
 
@@ -62,8 +59,8 @@ Resources:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId:              !Ref VPC
-      AvailabilityZone:   !Ref Az1
-      CidrBlock:          10.200.30.0/24
+      AvailabilityZone:   !Select [1, !GetAZs '']
+      CidrBlock:          10.20030.0/24
       MapPublicIpOnLaunch: true
       Tags: [ { Key: Name, Value: AoI Subnet C (Public) } ]
 
@@ -71,7 +68,7 @@ Resources:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId:            !Ref VPC
-      AvailabilityZone: !Ref Az1
+      AvailabilityZone: !Select [1, !GetAZs '']
       CidrBlock:        10.200.40.0/24
       Tags: [ { Key: Name, Value: AoI Subnet D (Private) } ]
 
