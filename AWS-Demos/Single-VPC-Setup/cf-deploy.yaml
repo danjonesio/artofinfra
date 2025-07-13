@@ -1,0 +1,4 @@
+template-file-path: AWS-Demos/Single-VPC-Setup/single-vpc.yaml   # ← your template
+parameters: {}                                                   # or list them here
+tags: {}                                                         # optional
+stack-name: single-vpc-stack                                     # ← your stack name
