@@ -47,7 +47,7 @@ Resources:
       VpcId:              !Ref VPC
       AvailabilityZone:   !Ref Az0
       CidrBlock:          10.200.10.0/24
-      MapPublicIpOnLaunch:true
+      MapPublicIpOnLaunch: true
       Tags: [ { Key: Name, Value: AoI Subnet A (Public) } ]
 
   PrivateSubnetB:
@@ -64,7 +64,7 @@ Resources:
       VpcId:              !Ref VPC
       AvailabilityZone:   !Ref Az1
       CidrBlock:          10.200.30.0/24
-      MapPublicIpOnLaunch:true
+      MapPublicIpOnLaunch: true
       Tags: [ { Key: Name, Value: AoI Subnet C (Public) } ]
 
   PrivateSubnetD:
@@ -87,7 +87,7 @@ Resources:
     DependsOn: AttachGateway
     Properties:
       RouteTableId:        !Ref PublicRouteTable
-      DestinationCidrBlock:0.0.0.0/0
+      DestinationCidrBlock: 0.0.0.0/0
       GatewayId:           !Ref InternetGateway
 
   PublicSubnetAAssociation:
