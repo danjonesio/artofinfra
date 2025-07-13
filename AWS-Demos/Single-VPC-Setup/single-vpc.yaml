@@ -1,15 +1,15 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >
   AoI Demo – Single VPC Setup
-  * One VPC (10.200.0.0/16) named “AoI Demo – Single VPC”
-  * Spans the first two AZs in the launch region
-  * Four /24 subnets:
-      AZ-1  Public  10.200.10.0/24  (auto-assign public IPs)
-      AZ-1  Private 10.200.20.0/24
-      AZ-2  Public  10.200.30.0/24  (auto-assign public IPs)
-      AZ-2  Private 10.200.40.0/24
-  * One Internet Gateway +
-    one route table for the two public subnets (0.0.0.0/0 → IGW)
+#  * One VPC (10.200.0.0/16) named “AoI Demo – Single VPC”
+#  * Spans the first two AZs in the launch region
+#  * Four /24 subnets:
+#      AZ-1  Public  10.200.10.0/24  (auto-assign public IPs)
+#      AZ-1  Private 10.200.20.0/24
+#      AZ-2  Public  10.200.30.0/24  (auto-assign public IPs)
+#      AZ-2  Private 10.200.40.0/24
+#  * One Internet Gateway +
+#    one route table for the two public subnets (0.0.0.0/0 → IGW)
 
 Resources:
 # ────────── VPC & IGW ────────────────────────────────────────────────────────
@@ -98,6 +98,31 @@ Resources:
     Properties:
       SubnetId:     !Ref PublicSubnetC
       RouteTableId: !Ref PublicRouteTable
+
+# ────────── Private route table ───────────────────────────────────────────────
+  PrivateRouteTableAZA:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:  [ { Key: Name, Value: AoI Private RT AZ A } ]
+
+  PrivateRouteTableAZB:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:  [ { Key: Name, Value: AoI Private RT AZ B } ]
+
+  PrivateSubnetBAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:     !Ref PrivateSubnetB
+      RouteTableId: !Ref PrivateRouteTableAZA
+
+  PrivateSubnetDAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:     !Ref PrivateSubnetD
+      RouteTableId: !Ref PrivateRouteTableAZB
 
 # ────────── Outputs ─────────────────────────────────────────────────────────
 Outputs:
