@@ -9,7 +9,7 @@ This provides a simple setup to follow along to with our [blog posts](https://ar
 ## What this CloudFormation Template Creates:
 - A single VPC with the CIDR block 10.200.0.0/16
 - 1 public and 1 private subnet in 2 AZ's (First two available)
-- Internet Gateway and attaches to VPC
+- Internet Gateway and attaches to VPC.
 - Routing for public subnet traffic to IGW and local subnets.
 - Routing for private subnet traffic to all local subnets. 
 - Enables auto-assignment of public IPv4 addressing to resources placed in public subnets.
