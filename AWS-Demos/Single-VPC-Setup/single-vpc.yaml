@@ -60,7 +60,7 @@ Resources:
     Properties:
       VpcId:              !Ref VPC
       AvailabilityZone:   !Select [1, !GetAZs '']
-      CidrBlock:          10.20030.0/24
+      CidrBlock:          10.200.30.0/24
       MapPublicIpOnLaunch: true
       Tags: [ { Key: Name, Value: AoI Subnet C (Public) } ]
 
