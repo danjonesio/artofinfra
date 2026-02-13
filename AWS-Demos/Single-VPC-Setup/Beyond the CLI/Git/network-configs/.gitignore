@@ -1,0 +1,17 @@
+# Credentials and secrets
+*.key
+*.pem
+secrets/
+.env
+
+# Editor and IDE files
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Lab and temp files
+*.bak
+*.tmp
+lab-notes
